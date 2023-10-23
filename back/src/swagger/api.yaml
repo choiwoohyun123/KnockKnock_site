@@ -1,0 +1,1596 @@
+tags:
+    - name: user
+      description: 유저 라우터 모음
+    - name: post
+      description: 게시글 라우터 모음
+    - name: participation
+      description: 참가 라우터 모음
+    - name: comment
+      description: 댓글 라우터 모음
+    - name: message
+      description: 메세지 라우터 모음
+    - name: chat
+      description: 채팅 라우터 모음
+    - name: card
+      description: 카드 라우터 모음
+
+paths:
+    /users/register:
+        post:
+            deprecated: false
+            tags:
+                - user
+            description: 유저 회원가입하기. job까지 필수, 이후로 선택
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                email:
+                                    type: string
+                                nickname:
+                                    type: string
+                                password:
+                                    type: string
+                                gender:
+                                    type: string
+                                birthday:
+                                    type: string
+                                    format: date
+                                job:
+                                    type: string
+                                region:
+                                    type: string
+                                profileImage:
+                                    type: string
+                                mbti:
+                                    type: string
+                                height:
+                                    type: integer
+                                hobby:
+                                    type: array
+                                    items:
+                                        type: string
+                                presonality:
+                                    type: array
+                                    items:
+                                        type: string
+                                ideal:
+                                    type: array
+                                    items:
+                                        type: string
+                                introduce:
+                                    type: string
+                required: true
+
+            responses:
+                '201':
+                    description: 회원가입 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    name:
+                                        type: string
+                                    email:
+                                        type: string
+                                    nickname:
+                                        type: string
+                                    password:
+                                        type: string
+                                    gender:
+                                        type: string
+                                    birthday:
+                                        type: string
+                                        format: date
+                                    job:
+                                        type: string
+                                    region:
+                                        type: string
+                                    profileImage:
+                                        type: string
+                                    mbti:
+                                        type: string
+                                    height:
+                                        type: integer
+                                    hobby:
+                                        type: array
+                                        items:
+                                            type: string
+                                    presonality:
+                                        type: array
+                                        items:
+                                            type: string
+                                    ideal:
+                                        type: array
+                                        items:
+                                            type: string
+                                    introduce:
+                                        type: string
+
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: Not Found
+                '405':
+                    description: Validation exception
+
+    /users/login:
+        post:
+            tags:
+                - user
+            description: 유저 로그인 하기.
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+                required: true
+
+            responses:
+                '200':
+                    description: 로그인 성공
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    token:
+                                        type: string
+                                    userId:
+                                        type: integer
+                '405':
+                    description: Invalid input
+
+    /users/isLogin:
+        get:
+            tags:
+                - user
+            description: 유저 로그인 여부 확인하기
+
+            responses:
+                '200':
+                    description: 정상적인 유저입니다
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    userId:
+                                        type: integer
+                                    email:
+                                        type: string
+                                    nickname:
+                                        type: string
+                                    url:
+                                        type: string
+
+                '405':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    email:
+                                        type: string
+                                    nickname:
+                                        type: string
+
+    /users/mypage:
+        get:
+            tags:
+                - user
+            description: 내 정보 불러오기
+
+            responses:
+                '200':
+                    description: 내 정보 불러오기 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    userId:
+                                        type: integer
+                                    email:
+                                        type: string
+                                    name:
+                                        type: string
+                                    nickname:
+                                        type: string
+                                    gender:
+                                        type: string
+                                    birthday:
+                                        type: string
+                                        format: date
+                                    age:
+                                        type: integer
+                                    job:
+                                        type: string
+                                    region:
+                                        type: string
+                                    mbti:
+                                        type: string
+                                    height:
+                                        type: integer
+                                    introduce:
+                                        type: string
+                                    hobby:
+                                        type: array
+                                        items:
+                                            type: string
+                                    presonality:
+                                        type: array
+                                        items:
+                                            type: string
+                                    ideal:
+                                        type: array
+                                        items:
+                                            type: string
+                                    profileImage:
+                                        type: string
+                                    backgroundImage:
+                                        type: string
+                '400':
+                    description: Invalid status value
+
+        put:
+            tags:
+                - user
+            description: 유저 정보 수정하기
+
+            parameters:
+                deprecated: true
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                nickname:
+                                    type: string
+                                job:
+                                    type: string
+                                region:
+                                    type: string
+                                mbti:
+                                    type: string
+                                height:
+                                    type: string
+                                hobby:
+                                    type: array
+                                    items:
+                                        type: string
+                                presonality:
+                                    type: array
+                                    items:
+                                        type: string
+                                ideal:
+                                    type: array
+                                    items:
+                                        type: string
+                                indtroduce:
+                                    type: string
+                                profileImage:
+                                    type: array
+                                    items:
+                                        type: string
+                                backgrounImage:
+                                    type: array
+                                    items:
+                                        type: string
+
+                required: true
+
+            responses:
+                '200':
+                    description: 유저 정보 수정하기 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    updatedUser:
+                                        type: object
+                                        properties:
+                                            nickname:
+                                                type: string
+                                            job:
+                                                type: string
+                                            region:
+                                                type: string
+                                            mbti:
+                                                type: string
+                                            height:
+                                                type: string
+                                            hobby:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            presonality:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            ideal:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            indtroduce:
+                                                type: string
+                                            profileImage:
+                                                type: array
+                                            backgrounImage:
+                                                type: array
+
+                '400':
+                    description: Invalid ID supplied
+
+                '404':
+                    description: Pet not found
+                '405':
+                    description: Validation exception
+
+        delete:
+            tags:
+                - user
+            description: 유저 정보 삭제하기.
+            parameters:
+                in: query
+                description: 유저 아이디
+                required: true
+                style: form
+                explode: true
+                schema:
+                    type: array
+                    items:
+                        type: string
+            responses:
+                '200':
+                    description: 유저 삭제 성공!
+
+                '400':
+                    description: Invalid tag value
+
+    /users/{userId}:
+        get:
+            tags:
+                - user
+            description: 유저 정보 조회하기.
+            parameters:
+                - name: userId
+                  in: path
+                  description: 유저 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 유저 조회 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    userId:
+                                        type: integer
+                                    email:
+                                        type: string
+                                    name:
+                                        type: string
+                                    nickname:
+                                        type: string
+                                    gender:
+                                        type: string
+                                    birthday:
+                                        type: string
+                                        format: date
+                                    age:
+                                        type: integer
+                                    job:
+                                        type: string
+                                    region:
+                                        type: string
+                                    mbti:
+                                        type: string
+                                    height:
+                                        type: integer
+                                    introduce:
+                                        type: string
+                                    hobby:
+                                        type: array
+                                        items:
+                                            type: string
+                                    presonality:
+                                        type: array
+                                        items:
+                                            type: string
+                                    ideal:
+                                        type: array
+                                        items:
+                                            type: string
+                                    profileImage:
+                                        type: string
+                                    backgroundImage:
+                                        type: string
+
+                '400':
+                    description: Invalid tag value
+
+    /users/mypage/password:
+        put:
+            tags:
+                - user
+            description: 유저 비밀번호 검증, 변경
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                currentPassword:
+                                    type: string
+                                newPassword:
+                                    type: string
+                required: true
+
+            response:
+                '200':
+                    description: '회원 비밀번호 변경에 성공했습니다.'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+
+    /users/mypage/posts:
+        get:
+            tags:
+                - user
+            description: 현재 로그인한 유저가 작성한 게시글 모두 불러오기
+            response:
+                '200':
+                    description: 내가 작성한 게시글 조회 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    posts:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                postId:
+                                                    type: integer
+                                                type:
+                                                    type: string
+                                                title:
+                                                    type: string
+                                                place:
+                                                    type: string
+                                                meetingTime:
+                                                    type: datetime
+                                                content:
+                                                    type: string
+                                                isCompleted:
+                                                    type: boolean
+                                                totalM:
+                                                    type: integer
+                                                totalF:
+                                                    type: integer
+                                                recruitedM:
+                                                    type: integer
+                                                recruitedF:
+                                                    type: integer
+                                                createdAt:
+                                                    type: datetime
+                                                updatedAt:
+                                                    type: datetime
+                                                userId:
+                                                    type: integer
+
+    /users/mypage/participants:
+        get:
+            tags:
+                - user
+            description: 현재 로그인한 유저의 참여한 게시글 모두 불러오기
+            response:
+                '200':
+                    description: 내가 참여한 게시글 조회 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    participants:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                participantId:
+                                                    type: integer
+                                                canceled:
+                                                    type: boolean
+                                                status:
+                                                    type: string
+                                                matchingCount:
+                                                    type: integer
+                                                createdAt:
+                                                    type: datetime
+                                                updatedAt:
+                                                    type: datetime
+                                                userId:
+                                                    type: integer
+                                                postId:
+                                                    type: integer
+
+    /users/network:
+        get:
+            tags:
+                - user
+            description: 오늘의 낙낙(네트워크) 랜덤으로 6명 불러오기
+
+            responses:
+                '200':
+                    description: 랜덤 유저 6명 불러오기 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    randomUsers:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                userId:
+                                                    type: integer
+                                                email:
+                                                    type: string
+                                                name:
+                                                    type: string
+                                                nickname:
+                                                    type: string
+                                                password:
+                                                    type: string
+                                                gender:
+                                                    type: string
+                                                birthday:
+                                                    type: string
+                                                    format: date
+                                                job:
+                                                    type: string
+                                                region:
+                                                    type: string
+                                                mbti:
+                                                    type: string
+                                                height:
+                                                    type: string
+                                                introduce:
+                                                    type: string
+                                                isDeleted:
+                                                    type: boolean
+                                                createdAt:
+                                                    type: datetime
+                                                deletedAt:
+                                                    type: datetime
+                                                UserTags:
+                                                    type: array
+                                                    items:
+                                                        type: object
+                                                        properties:
+                                                            userId:
+                                                                type: integer
+                                                            Tag:
+                                                                type: object
+                                                                properties:
+                                                                    tagName:
+                                                                        type: string
+                                                                    tagCategoryId:
+                                                                        type: integer
+                                                UserFiles:
+                                                    type: array
+                                                    items:
+                                                        type: object
+                                                        properties:
+                                                            userId:
+                                                                type: integer
+                                                            fileId:
+                                                                type: integer
+                                                            File:
+                                                                type: object
+                                                                properties:
+                                                                    url:
+                                                                        type: string
+
+                '400':
+                    description: Invalid value
+
+    /posts:
+        get:
+            tags:
+                - post
+            description: 전체/카테고리별 게시글 불러오기 (시간순)
+            parameters:
+                - name: page
+                  in: query
+                  description: 페이지 번호
+                  schema:
+                  type: integer
+                  minimum: 1
+                  default: 1
+                  required: false
+                - name: perPage
+                  in: query
+                  description: 페이지 당 게시글 개수
+                  schema:
+                  type: integer
+                  minimum: 1
+                  default: 5
+                  required: false
+                - name: type
+                  in: query
+                  description: 카테고리명 (따옴표없이 넣을 수 있을까요)
+                  schema:
+                  type: string
+                  required: false
+            responses:
+                '200':
+                    description: 전체 게시글 불러오기 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    allPostCount:
+                                        type: integer
+                                    currentPage:
+                                        type: integer
+                                    postList:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                postId:
+                                                    type: integer
+                                                type:
+                                                    type: string
+                                                title:
+                                                    type: string
+                                                place:
+                                                    type: string
+                                                meetingTime:
+                                                    type: string
+                                                content:
+                                                    type: string
+                                                isCompleted:
+                                                    type: boolean
+                                                    default: false
+                                                totalM:
+                                                    type: integer
+                                                totalF:
+                                                    type: integer
+                                                recruitedM:
+                                                    type: integer
+                                                recruitedF:
+                                                    type: integer
+                                                createdAt:
+                                                    type: string
+                                                    format: datetime
+                                                updatedAt:
+                                                    type: string
+                                                    format: datetime
+                                                userId:
+                                                    type: integer
+                                                User:
+                                                    type: object
+                                                    properties:
+                                                        nickname:
+                                                            type: string
+                                                        UserFiles:
+                                                            type: array
+                                                            items:
+                                                                type: object
+                                                                properties:
+                                                                    fileId:
+                                                                        type: integer
+                                                                    File:
+                                                                        type: object
+                                                                        properties:
+                                                                            url:
+                                                                                type: string
+                                                PostFiles:
+                                                    type: array
+                                                    items:
+                                                        type: object
+                                                        properties:
+                                                            postId:
+                                                                type: integer
+                                                            fileId:
+                                                                type: integer
+                                                            File:
+                                                                type: object
+                                                                properties:
+                                                                    url:
+                                                                        type: string
+                    required: true
+
+        post:
+            tags:
+                - post
+            description: 게시글 작성하기. 제목 100자, 내용 200자, 인원 10명 이하, 장소 30자 이하, recruited_f/m은 default 0으로 들어감.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                content:
+                                    type: string
+                                type:
+                                    type: string
+                                totalM:
+                                    type: integer
+                                totalF:
+                                    type: integer
+                                place:
+                                    type: string
+                                meetingTime:
+                                    type: string
+                required: true
+
+            responses:
+                '201':
+                    description: 게시글 작성하기 성공.
+
+    /posts/{postId}:
+        get:
+            tags:
+                - post
+            description: 개별 게시글 확인하기
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+            responses:
+                '200':
+                    description: 개별 게시글 확인 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    post:
+                                        type: object
+                                        properties:
+                                            postId:
+                                                type: integer
+                                            type:
+                                                type: string
+                                            title:
+                                                type: string
+                                            place:
+                                                type: string
+                                            meetingTime:
+                                                type: string
+                                            content:
+                                                type: string
+                                            isCompleted:
+                                                type: boolean
+                                            totalM:
+                                                type: integer
+                                            totalF:
+                                                type: integer
+                                            recruitedM:
+                                                type: integer
+                                            recruitedF:
+                                                type: integer
+                                            createdAt:
+                                                type: string
+                                                format: datetime
+                                            updatedAt:
+                                                type: string
+                                                format: datetime
+                                            userId:
+                                                type: integer
+                                            User:
+                                                type: object
+                                                properties:
+                                                    nickname:
+                                                        type: string
+                                                    UserFiles:
+                                                        type: array
+                                                        items:
+                                                            type: object
+                                                            properties:
+                                                                fileId:
+                                                                    type: integer
+                                                                File:
+                                                                    type: object
+                                                                    properties:
+                                                                        url:
+                                                                            type: string
+                                            PostFiles:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        postId:
+                                                            type: integer
+                                                        fileId:
+                                                            type: integer
+                                                        File:
+                                                            type: object
+                                                            properties:
+                                                                url:
+                                                                    type: string
+                    required: true
+        delete:
+            tags:
+                - post
+            description: 게시글 삭제하기
+
+            parameters:
+                - name: postid
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 게시글 삭제 성공.
+
+        put:
+            tags:
+                - post
+            description: 게시글 수정하기. 수정할 항목만 넣어주면 됨! total_m/f 수정할 때는 recruited_m/f 보다 큰 값이어야 함.
+
+            parameters:
+                - name: postid
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                title:
+                                    type: string
+                                content:
+                                    type: string
+                                type:
+                                    type: string
+                                totalM:
+                                    type: integer
+                                totalF:
+                                    type: integer
+                                place:
+                                    type: string
+                                meetingTime:
+                                    type: string
+                required: true
+
+            responses:
+                '200':
+                    description: 게시글 수정을 성공했습니다.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: Order not found
+
+    /participants/{postId}:
+        post:
+            tags:
+                - participation
+            description: 모임 신청하기. Flag가 true면 신청된 상태, false면 신청 취소 떠야 함
+
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 모임 신청 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    participationFlag:
+                                        type: boolean
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: Order not found
+        put:
+            tags:
+                - participation
+            description: 모임 신청 취소하기. Flag가 true면 신청된 상태, false면 신청 취소 떠야 함
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+            responses:
+                '200':
+                    description: 모임 신청 취소 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    participationFlag:
+                                        type: boolean
+        get:
+            tags:
+                - participation
+            description: 모임 신청 여부 조회하기. canceled가 false면 신청된거고 true면 신청 취소된거
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+            responses:
+                '200':
+                    description: 모임 신청 취소 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    participantId:
+                                        type: integer
+                                    status:
+                                        type: string
+                                    canceled:
+                                        type: boolean
+    /participants/{postId}/userlist:
+        get:
+            tags:
+                - participation
+            description: 신청자 조회하기
+
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+                - name: cursor
+                  in: query
+                  description: 커서. 처음에는 0, 페이지 내 마지막 id
+                - name: limit
+                  in: query
+                  description: 한 페이지 내 띄울 아이템 수
+
+            responses:
+                '200':
+                    description: 신청자 조회 성공. isFulled가 true면 모집 완료 / false면 모집 중
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    isFulled:
+                                        type: boolean
+                                        description: 모집 완료 여부
+                                    nextCursor:
+                                        type: integer
+                                    participantsList:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                participantId:
+                                                    type: integer
+                                                canceled:
+                                                    type: boolean
+                                                status:
+                                                    type: string
+                                                matchingCount:
+                                                    type: integer
+                                                User:
+                                                    type: object
+                                                    properties:
+                                                        userId:
+                                                            type: integer
+                                                        nickname:
+                                                            type: string
+                                                        gender:
+                                                            type: string
+                                                        age:
+                                                            type: integer
+                                                        job:
+                                                            type: string
+                                                profile_image:
+                                                    type: string
+                                                personality:
+                                                    type: array
+                                                    items:
+                                                        type: string
+                                                        description: 성격
+
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: Order not found
+
+    /participants/{participantId}/allow:
+        put:
+            tags:
+                - participation
+            description: 신청인 수락하기
+
+            parameters:
+                - name: participantId
+                  in: path
+                  description: 참가 신청 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 신청자 수락 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: User not found
+
+    /participants/{participantId}/deny:
+        put:
+            tags:
+                - participation
+            description: 신청인 거절하기
+
+            parameters:
+                - name: participantId
+                  in: path
+                  description: 참가 신청 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 신청자 거절 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: User not found
+
+    /participants/{postId}/acceptedlist:
+        get:
+            tags:
+                - participation
+            description: 수락된 유저 조회
+
+            parameters:
+                - name: postid
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 신청자 수락 성공.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    acceptedUsers:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                User:
+                                                    type: object
+                                                    properties:
+                                                        nickname:
+                                                            type: string
+                                                        gender:
+                                                            type: string
+                                                        age:
+                                                            type: integer
+                                                        job:
+                                                            type: integer
+
+                '400':
+                    description: Invalid ID supplied
+                '404':
+                    description: User not found
+
+    /comments:
+        post:
+            tags:
+                - comment
+            description: 댓글 작성하기
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                post_id:
+                                    type: integer
+                                content:
+                                    type: string
+                required: true
+
+            responses:
+                '200':
+                    description: 댓글 추가하기에 성공했습니다.
+                '500':
+                    description: '댓글 추가하기에 실패했습니다'
+
+    /comments/{postId}/{commentId}:
+        put:
+            tags:
+                - comment
+            description: 댓글 수정 하기
+
+            parameters:
+                - name: postId
+                  in: path
+                  description: 게시글 아이디
+                  required: true
+
+                - name: commentId
+                  in: path
+                  description: 댓글 고유 아이디
+                  required: true
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                content:
+                                    type: string
+                required: true
+
+            responses:
+                '200':
+                    description: 댓글 수정하기에 성공하셨습니다.
+                '500':
+                    description: 댓글 수정하기에 실패했습니다.
+                '404':
+                    description: 요청한 댓글의 정보를 찾을 수 없습니다.
+
+        delete:
+            tags:
+                - comment
+            description: 댓글 삭제 하기
+
+            parameters:
+                - name: commentId
+                  in: path
+                  description: 댓글 고유 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 댓글 삭제하기에 성공하셨습니다.
+                '401':
+                    description: 작성한 유저에게 권한이 있습니다.
+                '404':
+                    description: 이미 삭제된 댓글입니다.
+                '500':
+                    description: 댓글 삭제하기에 실패했습니다.
+
+    /comments/{postId}/{?cursor&limit}:
+        get:
+            tags:
+                - comment
+            description: 댓글 불러오기 (커서기반 무한 스크롤), 처음 불러올때 0, 마지막 값 불러오면 -1
+
+            parameters:
+                - name: postId
+                  schema:
+                      type: integer
+                  in: path
+                  description: 게시글 고유 아이디
+                  required: true
+
+                - name: cursor
+                  schema:
+                      type: integer
+                  in: query
+                  description: 커서의 마지막 위치값, 댓글의 아이디
+                  required: true
+
+                - name: limit
+                  schema:
+                      type: integer
+                  in: query
+                  description: 불러올 데이터 수
+                  required: true
+
+            responses:
+                '200':
+                    description: 게시글 댓글 불러오기에 성공하셨습니다.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    commentList:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                comment_id:
+                                                    type: integer
+                                                post_id:
+                                                    type: integer
+                                                user_id:
+                                                    type: integer
+                                                comment_content:
+                                                    type: string
+                                                nickname:
+                                                    type: string
+                                                createAt:
+                                                    type: datetime
+                '500':
+                    description: 게시글 댓글 불러오기에 실패했습니다.
+                '404':
+                    description: 요청한 게시물의 정보를 찾을 수 없습니다.
+    /messages:
+        post:
+            tags:
+                - message
+            description: 메세지 작성 하기
+
+            requestbody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                chatId:
+                                    type: integer
+                                content:
+                                    type: string
+                required: true
+
+            responses:
+                '200':
+                    description: 새로운 메세지 생성에 성공했습니다.
+                '409':
+                    description: 현재 채팅방에 속해있지 않습니다.
+                '500':
+                    description: 새로운 메세지 생성에 실패했습니다.
+
+    /messages/{chatId}:
+        get:
+            tags:
+                - message
+            description: 전체 메세지 불러 오기
+
+            parameters:
+                - name: chatId
+                  schema:
+                      type: integer
+                  in: path
+                  description: 채팅방 아이디
+                  required: true
+
+            requestbody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                chat:
+                                    type: array
+                                    items:
+                                        type: object
+                                        properties:
+                                            messageId:
+                                                type: integer
+                                            senderId:
+                                                type: integer
+                                            content:
+                                                type: string
+                                            createAt:
+                                                type: datetime
+                                            updateAt:
+                                                type: datetime
+                                            chatId:
+                                                type: integer
+
+            responses:
+                '200':
+                    description: 유저의 메세지 불러오기에 성공했습니다.
+                '500':
+                    description: 유저의 메세지 불러오기에 실패했습니다.
+
+    /chats:
+        post:
+            tags:
+                - chat
+            description: 채팅 방 생성
+
+            requestbody:
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            anotherId:
+                                type: integer
+
+            responses:
+                '201':
+                    description: 새로운 채팅 방 생성에 성공했습니다.
+                '409':
+                    description: 이미 존재하는 채팅 입니다.
+                '500':
+                    description: 채팅방 생성에 실패 했습니다.
+
+        get:
+            tags:
+                - chat
+            description: 전체 채팅 조회
+
+            responses:
+                '200':
+                    description: 유저의 채팅 목록 불러오기에 성공했습니다.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    allChatList:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                chatId:
+                                                    type: integer
+                                                firstId:
+                                                    type: integer
+                                                secondId:
+                                                    type: integer
+                                                url:
+                                                    type: string
+                                                createAt:
+                                                    type: datetime
+                                                updateAt:
+                                                    type: datetime
+                '500':
+                    description: 유저의 채팅 목록 불러오기에 실패했습니다.
+
+    /chats/{secondId}:
+        get:
+            tags:
+                - chat
+            description: 개별 채팅 조회
+
+            parameters:
+                - name: anotherId
+                  schema:
+                      type: integer
+                  in: path
+                  description: 현재 유저 아니고, 다른 유저 아이디
+                  required: true
+
+            responses:
+                '200':
+                    description: 유저의 채팅 불러오기에 성공했습니다.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    chatId:
+                                        type: integer
+                                    firstId:
+                                        type: integer
+                                    secondId:
+                                        type: integer
+                                    creatAt:
+                                        type: date
+                                    updateAt:
+                                        type: date
+                                    url:
+                                        type: string
+                '500':
+                    description: 유저의 채팅 불러오기에 실패했습니다.
+    /cards:
+        post:
+            tags:
+                - card
+            description: 뽑은 카드 저장하기
+
+            parameters:
+                - name: cardId
+                  schema:
+                      type: integer
+                  in: query
+                  description: 카드 고유 아이디 (21~30)
+                  required: true
+
+            responses:
+                '201':
+                    description: 유저 카드 정보 저장에 성공했습니다!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    user:
+                                        type: integer
+                                    card:
+                                        type: object
+                                        properties:
+                                            cardId:
+                                                type: integer
+                                            content:
+                                                type: array
+                                                items:
+                                                    type: string
+                                    CardFile:
+                                        type: object
+                                        properties:
+                                            fileId:
+                                                type: integer
+                                            File:
+                                                type: object
+                                                properties:
+                                                    url:
+                                                        type: string
+                '500':
+                    description: 게시글 댓글 불러오기에 실패했습니다.
+                '404':
+                    description: 요청한 게시물의 정보를 찾을 수 없습니다.
+        get:
+            tags:
+                - card
+            description: 같은 카드 고른 유저 랜덤 3명 뽑기
+
+            parameters:
+                - name: limit
+                  schema:
+                      type: integer
+                  in: query
+                  description: 띄울 유저 수
+                  required: true
+
+            responses:
+                '200':
+                    description: 랜덤 유저 (limit)명 조회 성공!
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                    card:
+                                        type: object
+                                        properties:
+                                            cardId:
+                                                type: integer
+                                            content:
+                                                type: string
+                                            CardFile:
+                                                type: object
+                                                properties:
+                                                    fileId:
+                                                        type: integer
+                                                    File:
+                                                        type: object
+                                                        properties:
+                                                            url:
+                                                                type: string
+                                    randomLovers:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                User:
+                                                    type: object
+                                                    properties:
+                                                        userId:
+                                                            type: integer
+                                                        email:
+                                                            type: string
+                                                        nickname:
+                                                            type: string
+                                                        gender:
+                                                            type: string
+                                                        birthday:
+                                                            type: string
+                                                        age:
+                                                            type: integer
+                                                        job:
+                                                            type: string
+                                                        region:
+                                                            type: string
+                                                        mbti:
+                                                            type: string
+                                                        height:
+                                                            type: string
+                                                        introduce:
+                                                            type: string
+                '404':
+                    description: 캡쳐보세요

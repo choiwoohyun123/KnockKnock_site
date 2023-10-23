@@ -1,0 +1,12 @@
+opencv-python
+flask
+flask_cors
+numpy
+imutils
+cmake
+dlib
+colormath
+scipy
+scikit-learn
+tensorflow
+image
