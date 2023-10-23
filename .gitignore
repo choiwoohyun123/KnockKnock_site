@@ -17,7 +17,8 @@ lerna-debug.log*
 !.yarn/sdks
 !.yarn/versions
 
-
+3team/res/shape_predictor_68_face_landmarks.dat
+3team/res/model.data-00000-of-00001
 
 
 logs/
