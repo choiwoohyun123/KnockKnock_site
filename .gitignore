@@ -18,7 +18,8 @@ lerna-debug.log*
 !.yarn/versions
 
 3team/res
-
+3team/personal_color_analysis/tone_analysis.py
+3team/app.py
 
 
 logs/
